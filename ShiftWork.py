@@ -23,6 +23,8 @@ def read_xl(filename, range_start, range_end):
             cell_value = xl_sheet.cell_value(row_idx, col_idx)  # Get cell object by row, col
             employees_shiftwork[key].add_info(cell_value, weekdays(col_idx).name)
 
+def read_all_xls()
+
 read_xl("program1.xls", 7, 14)
 read_xl("program1.xls", 17, 25)
 
