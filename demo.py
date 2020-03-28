@@ -48,7 +48,7 @@ from tkinter import *
 from tkinter.ttk import *
 
 window = Tk()
-window.geometry('700x600')
+window.geometry('900x600')
 window.title("Welcome to ShiftWork app")
 
 #Intro
@@ -147,15 +147,13 @@ def checked_diff():
         x += 1
 
 list_segments = []
-def clicked():
+def clicked(i):
     list_segments.append(entry1.get())
     list_segments.append(entry2.get())
-    flag = 1
+    checked_same(i + 1)
 
-def checked_same():
-    i = 0
-    flag = 1
-    while i < int(combo3.get()) and flag:
+def checked_same(i):
+    if i < int(combo3.get()):
         txt = "Segment #{} begins at row "
         lbl = Label(window, text = txt.format(i+1), font = ("Arial", 12))
         lbl.grid(column = 0, row = 15 + i)
@@ -172,19 +170,20 @@ def checked_same():
         entry2 = Entry(window, width= 3)
         entry2.grid(column=3, row = 15 + i)
 
-        flag = 0
-        ok_button = Button(window, text='OK', width = 4, command = clicked)
+        ok_button = Button(window, text='OK', width = 4, command = lambda : clicked(i))
         ok_button.grid(column=4, row=15 + i)
-        i += 1
-    s.lines["Excel1"] = list_segments
-    for x in list_segments:
-        print(x)
+        print(i)
+        s.lines["Excel1"] = list_segments
+    else:
+        txt = "OK"
+        lbl = Label(window, text = txt.format(i+1), font = ("Arial", 12))
+        lbl.grid(column = 0, row = 15 + i)
 
 chk_state_same = IntVar()
 chk_state_same.set(0) #set uncheck
 chk_state_diff = IntVar()
 chk_state_diff.set(0) #set uncheck
-chk = Checkbutton(window, text='Same in every excel file', width = 25, var=chk_state_same, command = checked_same)
+chk = Checkbutton(window, text='Same in every excel file', width = 25, var=chk_state_same, command = lambda : checked_same(0))
 chk.grid(column=0, row=14)
 chk = Checkbutton(window, text='Different in every excel file', width = 25, var=chk_state_diff, command = checked_diff)
 chk.grid(column=1, row=14)
