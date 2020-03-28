@@ -4,7 +4,7 @@ class Settings:
         self.day_start = 1
         self.day_end = 1
         self.no_segments = 0
-        self.lines = ()
+        self.lines = {}
 
     def get_no_work_timesheets(self):
         return self.no_work_timesheets
@@ -19,8 +19,13 @@ class Settings:
             self.lines[i] = x
             i += 1
     def print_data(self):
-        txt = "WT= {}\nDay Start= {}\nDay End= {}\nSegments= {}\n"
+        txt = "WT= {}\nDay Start= {}\nDay End= {}\nSegments= {}\nLines:"
         print(txt.format(self.no_work_timesheets, self.day_start, self.day_end, self.no_segments))
+        for x in self.lines:
+            print(x)
+            value = self.lines[x]
+            for y in value:
+                print(y)
 
 s = Settings()
 
@@ -141,23 +146,40 @@ def checked_diff():
             i += 1
         x += 1
 
+list_segments = []
+def clicked():
+    list_segments.append(entry1.get())
+    list_segments.append(entry2.get())
+    flag = 1
+
 def checked_same():
     i = 0
-    while i < int(combo3.get()):
+    flag = 1
+    while i < int(combo3.get()) and flag:
         txt = "Segment #{} begins at row "
         lbl = Label(window, text = txt.format(i+1), font = ("Arial", 12))
         lbl.grid(column = 0, row = 15 + i)
 
-        txt = Entry(window, width= 3)
-        txt.grid(column=1, row = 15 + i)
+        global entry1
+        entry1 = Entry(window, width= 3)
+        entry1.grid(column=1, row = 15 + i)
 
         txt = " and ends at row "
         lbl = Label(window, text = txt, font = ("Arial", 12))
         lbl.grid(column = 2, row = 15 + i)
 
-        txt = Entry(window, width= 3)
-        txt.grid(column=3, row = 15 + i)
+        global entry2
+        entry2 = Entry(window, width= 3)
+        entry2.grid(column=3, row = 15 + i)
+
+        flag = 0
+        ok_button = Button(window, text='OK', width = 4, command = clicked)
+        ok_button.grid(column=4, row=15 + i)
         i += 1
+    s.lines["Excel1"] = list_segments
+    for x in list_segments:
+        print(x)
+
 chk_state_same = IntVar()
 chk_state_same.set(0) #set uncheck
 chk_state_diff = IntVar()
