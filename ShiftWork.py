@@ -19,8 +19,7 @@ def read_xl(filename, month):
     month_end = int(txt[2].rpartition("\\")[0].partition("\\")[2])
     day_end = int(txt[2].rpartition("\\")[0].partition("\\")[0])
     date_end = datetime.datetime(year_end, month_end, day_end)
-    print(date_start)
-    print(date_end)
+
     if date_start.strftime("%m") != month:
         day = datetime.datetime(year_end, int(month), 1).strftime("%A")
         col_start = Empl_mod.weekdays[day]
@@ -34,9 +33,7 @@ def read_xl(filename, month):
 
     for row_idx in range(7, xl_sheet.nrows):
         key = xl_sheet.cell_value(row_idx, 0) + xl_sheet.cell_value(row_idx, 1)
-        print(key)
         if not key: break
-        print(bool(xl_sheet.cell_value(row_idx, 1)))
         if not xl_sheet.cell_value(row_idx, 1):
             row_idx += 1
             continue
@@ -47,15 +44,6 @@ def read_xl(filename, month):
             employees_shiftwork[key].add_info(cell_value, col_idx)
         row_idx += 1
 
-read_xl("program1.xls", "02")
-
-read_xl("program2.xls", "02")
-
-read_xl("program3.xls", "02")
-
-read_xl("program4.xls", "02")
-
-read_xl("program5.xls", "02")
-
-for x in employees_shiftwork:
-    print(employees_shiftwork[x].print_employee())
+def print_data():
+    for x in employees_shiftwork:
+        print(employees_shiftwork[x].print_employee())
