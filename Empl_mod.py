@@ -37,4 +37,4 @@ class Employee:
 
     def print_employee(self):
         txt = "Name: {}\nSurname: {}\nNight Hours: {}\nSunday Hours: {}\nSickness Days: {}\nLicense Days: {}\n"
-        print(txt.format(self.name, self.surname, self.NightHours, self.SundayHours, self.NoSickness, self.NoLicense))
+        return txt.format(self.name, self.surname, self.NightHours, self.SundayHours, self.NoSickness, self.NoLicense)

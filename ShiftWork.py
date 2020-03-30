@@ -5,7 +5,7 @@ employees_shiftwork = {} #employees dictionary
 
 import datetime
 
-def read_xl(filename, range_start, range_end, month):
+def read_xl(filename, month):
     xl_workbook = xlrd.open_workbook(filename) #get workbook
     xl_sheet = xl_workbook.sheet_by_index(0) #get sheet 0 from workbook
 
@@ -32,28 +32,30 @@ def read_xl(filename, range_start, range_end, month):
         col_start = Empl_mod.weekdays["Monday"]
         col_end = Empl_mod.weekdays["Sunday"]
 
-    for row_idx in range(range_start, range_end):
+    for row_idx in range(7, xl_sheet.nrows):
         key = xl_sheet.cell_value(row_idx, 0) + xl_sheet.cell_value(row_idx, 1)
+        print(key)
+        if not key: break
+        print(bool(xl_sheet.cell_value(row_idx, 1)))
+        if not xl_sheet.cell_value(row_idx, 1):
+            row_idx += 1
+            continue
         if key not in employees_shiftwork:
             employees_shiftwork[key] = Empl_mod.Employee(xl_sheet.cell_value(row_idx, 0), xl_sheet.cell_value(row_idx, 1))
         for col_idx in range(col_start, col_end):
             cell_value = xl_sheet.cell_value(row_idx, col_idx)  # Get cell object by row, col
             employees_shiftwork[key].add_info(cell_value, col_idx)
+        row_idx += 1
 
-read_xl("program1.xls", 7, 14, "02")
-read_xl("program1.xls", 17, 25, "02")
+read_xl("program1.xls", "02")
 
-read_xl("program2.xls", 7, 14, "02")
-read_xl("program2.xls", 17, 25, "02")
+read_xl("program2.xls", "02")
 
-read_xl("program3.xls", 7, 14, "02")
-read_xl("program3.xls", 17, 25, "02")
+read_xl("program3.xls", "02")
 
-read_xl("program4.xls", 7, 14, "02")
-read_xl("program4.xls", 17, 25, "02")
+read_xl("program4.xls", "02")
 
-read_xl("program5.xls", 7, 14, "02")
-read_xl("program5.xls", 17, 25, "02")
+read_xl("program5.xls", "02")
 
 for x in employees_shiftwork:
     print(employees_shiftwork[x].print_employee())
