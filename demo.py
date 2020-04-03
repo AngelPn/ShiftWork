@@ -92,30 +92,36 @@ import ShiftWork
 for x in s.files_path:
     ShiftWork.read_xl(x, months[s.month])
 
-ShiftWork.print_data()
-
 import xlwt
 
 wb = xlwt.Workbook()
 ws = wb.add_sheet("WorkShift")
-ws.write(0, 2 , "Νυχτερινές ώρες")
-ws.write(0, 3 , "Ώρες Κυριακής")
-ws.write(0, 4 , "Ημέρες αναρρωτικής άδειας")
-ws.write(0, 5 , "Ημέρες άδειας")
+ws.col(0).width = 256 * 20  # 20 characters wide (-ish)
+ws.col(1).width = 256 * 15  # 15 characters wide (-ish)
+for col_idx in range(2, 5):
+    ws.col(col_idx).width = 256 * 13
+tall_style = xlwt.easyxf('font:height 720;') # 36pt
+ws.row(0).set_style(tall_style)
+
+header_style = xlwt.easyxf('font: bold on; align: wrap on, vert centre, horiz center')
+ws.write(0, 2 , "Νυχτερινές ώρες", header_style)
+ws.write(0, 3 , "Ώρες Κυριακής", header_style)
+ws.write(0, 4 , "Ημέρες αναρρωτικής άδειας", header_style)
+ws.write(0, 5 , "Ημέρες άδειας", header_style)
 
 employeesList = []
 for value in ShiftWork.employees_shiftwork.values():
     employeesList.append(value)
-    
-for row_idx in range(1, len(employeesList)-1):
-    ws.write(row_idx, 0, employeesList[row_idx - 1].name)
-    ws.write(row_idx, 1, employeesList[row_idx - 1].surname)
-    ws.write(row_idx, 2, employeesList[row_idx - 1].NightHours)
-    ws.write(row_idx, 3, employeesList[row_idx - 1].SundayHours)
-    ws.write(row_idx, 4, employeesList[row_idx - 1].NoSickness)
-    ws.write(row_idx, 5, employeesList[row_idx - 1].NoLicense)
+
+data_style = xlwt.easyxf('align: wrap on, vert centre, horiz center')   
+for row_idx in range(1, len(employeesList) + 1):
+    ws.write(row_idx, 0, employeesList[row_idx - 1].name, data_style)
+    ws.write(row_idx, 1, employeesList[row_idx - 1].surname, data_style)
+    ws.write(row_idx, 2, employeesList[row_idx - 1].NightHours, data_style)
+    ws.write(row_idx, 3, employeesList[row_idx - 1].SundayHours, data_style)
+    ws.write(row_idx, 4, employeesList[row_idx - 1].NoSickness, data_style)
+    ws.write(row_idx, 5, employeesList[row_idx - 1].NoLicense, data_style)
 
 dir_path = s.files_path[0]
 save_path = dir_path + "/../shiftwork.xls"
 wb.save(save_path)
-
