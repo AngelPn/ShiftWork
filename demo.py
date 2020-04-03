@@ -115,5 +115,7 @@ for row_idx in range(1, len(employeesList)-1):
     ws.write(row_idx, 4, employeesList[row_idx - 1].NoSickness)
     ws.write(row_idx, 5, employeesList[row_idx - 1].NoLicense)
 
-wb.save("shiftwork.xls")
+dir_path = s.files_path[0]
+save_path = dir_path + "/../shiftwork.xls"
+wb.save(save_path)
 
