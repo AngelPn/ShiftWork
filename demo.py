@@ -8,27 +8,30 @@ class Settings:
 
 s = Settings()
 
-from tkinter import *
-from tkinter.ttk import *
+import tkinter as tk
+import tkinter.ttk as ttk
 
-window = Tk()
-window.geometry('600x400')
-window.title("Welcome to ShiftWork app")
-
-#Intro
-txt = "Εφαρμογή που υπολογίζει τα μηνιαία shift works των υπαλλήλων"
-lbl = Label(window, text = txt, font = ("Arial", 12))
-lbl.grid(column = 0, row = 0)
+window = tk.Tk()
+window.geometry('500x200')
+window.configure(background = "#181717")
+window.title("Καλωσήρθατε στην εφαρμογή ShiftWork")
 
 #Question 1
-txt = "Ποιος είναι ο μήνας του οποίου θέλετε να υπολογιστεί το shift work;"
-lbl = Label(window, text = txt, font = ("Arial", 12))
-lbl.grid(column = 0, row = 2)
+txt = "\n   Ποιος είναι ο μήνας του οποίου θέλετε να υπολογιστεί το shift work;"
+lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
+lbl.grid(columnspan = 5)
 
-combo = Combobox(window, width = 15)
-combo['values']= ("Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος")
-combo.current(0) #set the selected item
-combo.grid(column=0, row=3)
+# This will create style object 
+style = ttk.Style()
+style.configure('TCombobox', foreground = "#181717", bg = "red") 
+default_values = ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"]
+
+combo = ttk.Combobox(window, values = default_values, style = 'TCombobox', width = 15 )
+combo.master.option_add( '*TCombobox*Listbox.background', '#181717')
+combo.master.option_add( '*TCombobox*Listbox.foreground', '#BFCFE2')
+combo.master.option_add( '*TCombobox*Listbox.selectBackground','#BFCFE2') #does not work
+combo.master.option_add( '*TCombobox*Listbox.selectForeground','#181717') #does not work  
+combo.grid(column=2, row=1)
 def set_values():
     s.set_month(combo.get())
     window.destroy()
@@ -43,14 +46,30 @@ def open_files():
         s.set_files_path(files[x].name)
         x += 1
     txt = "Τα αρχεία είναι έτοιμα!"
-    lbl = Label(window, text = txt, font = ("Arial", 12))
-    lbl.grid(column = 0, row = 5)
-    value_button = Button(window, text = 'OK', width = 4, command = set_values)#set values
-    value_button.grid(column = 1, row = 5)
+    lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
+    lbl.grid(column = 2, row = 5)
+    value_button = tk.Button(window, 
+        text = 'OK',
+        font = ("Calibri", 10, "bold"),
+        foreground = "#181717",
+        background = "#BFCFE2",
+        width = 4,
+        command = set_values)#set values
+    value_button.grid(column = 3, row = 5)
 
-files_button = Button(window, text = 'Επίλεξε τα αρχεία', width = 20, command = open_files)
-files_button.grid(column = 0, row = 4)
+files_button = tk.Button(window, 
+    text = 'Επίλεξε τα αρχεία',
+    activebackground = "#181717",
+    activeforeground = "#BFCFE2",
+    background = "#BFCFE2",
+    foreground = "#181717",
+    width = 15,
+    command = open_files )
+files_button.grid(column = 2, row = 4)
 
+col_count, row_count = window.grid_size()
+for row in range(1,row_count):
+    window.grid_rowconfigure(row, minsize=20)
 window.mainloop()
 
 months = {
