@@ -16,6 +16,7 @@ class Employee:
         self.SundayHours = 0
         self.NoSickness = 0
         self.NoLicense = 0
+        self.HolidayHours = 0
 
     def add_info(self, cell, day):
         if day == weekdays["Sunday"]:
