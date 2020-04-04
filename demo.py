@@ -12,6 +12,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 window = tk.Tk()
+window.iconbitmap("sw.ico")
 window.geometry('500x200')
 window.configure(background = "#181717")
 window.title("Καλωσήρθατε στην εφαρμογή ShiftWork")
