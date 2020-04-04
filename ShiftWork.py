@@ -19,10 +19,9 @@ def read_xl(filename, month):
     month_end = int(txt[2].rpartition("\\")[0].partition("\\")[2])
     day_end = int(txt[2].rpartition("\\")[0].partition("\\")[0])
     date_end = datetime.datetime(year_end, month_end, day_end)
-
+    print(date_start, date_end)
     if date_start.strftime("%m") != month:
-        day = datetime.datetime(year_end, int(month), 1).strftime("%A")
-        col_start = Empl_mod.weekdays[day]
+        col_start = Empl_mod.weekdays[datetime.datetime(year_end, int(month), 1).strftime("%A")]
         col_end = Empl_mod.weekdays["Sunday"]
     elif date_end.strftime("%m") != month:
         col_start = Empl_mod.weekdays["Monday"]
@@ -30,7 +29,7 @@ def read_xl(filename, month):
     else:
         col_start = Empl_mod.weekdays["Monday"]
         col_end = Empl_mod.weekdays["Sunday"]
-
+    print(col_start, col_end)
     for row_idx in range(7, xl_sheet.nrows):
         key = xl_sheet.cell_value(row_idx, 0) + xl_sheet.cell_value(row_idx, 1)
         if not key: break
@@ -39,7 +38,7 @@ def read_xl(filename, month):
             continue
         if key not in employees_shiftwork:
             employees_shiftwork[key] = Empl_mod.Employee(xl_sheet.cell_value(row_idx, 0), xl_sheet.cell_value(row_idx, 1))
-        for col_idx in range(col_start, col_end):
+        for col_idx in range(col_start, col_end+1):
             cell_value = xl_sheet.cell_value(row_idx, col_idx)  # Get cell object by row, col
             employees_shiftwork[key].add_info(cell_value, col_idx)
         row_idx += 1

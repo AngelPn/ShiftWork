@@ -90,7 +90,10 @@ months = {
 import ShiftWork
 
 for x in s.files_path:
+    print(x)
     ShiftWork.read_xl(x, months[s.month])
+
+ShiftWork.print_data()
 
 import xlwt
 

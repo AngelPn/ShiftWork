@@ -23,7 +23,7 @@ class Employee:
             elif cell == "22:00 - 06:00":
                 self.NightHours += 8
                 self.SundayHours += 2
-            elif cell == "ΑΝΑΡ. ΑΔΕΙΑ": self.NoSickness += 1
+            elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ" : self.NoSickness += 1
             elif cell == "ΑΔΕΙΑ": self.NoLicense += 1
             else: pass
         elif day == weekdays["Saturday"] and cell == "22:00 - 06:00":
@@ -31,7 +31,7 @@ class Employee:
             self.SundayHours +=6
         else:
             if cell == "22:00 - 06:00": self.NightHours += 8
-            elif cell == "ΑΝΑΡ. ΑΔΕΙΑ": self.NoSickness += 1
+            elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ": self.NoSickness += 1
             elif cell == "ΑΔΕΙΑ": self.NoLicense += 1
             else: pass
 
