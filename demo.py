@@ -91,10 +91,7 @@ months = {
 import ShiftWork
 
 for x in s.files_path:
-    print(x)
     ShiftWork.read_xl(x, months[s.month])
-
-ShiftWork.print_data()
 
 import xlwt
 
@@ -102,16 +99,22 @@ wb = xlwt.Workbook()
 ws = wb.add_sheet("WorkShift")
 ws.col(0).width = 256 * 20  # 20 characters wide (-ish)
 ws.col(1).width = 256 * 15  # 15 characters wide (-ish)
-for col_idx in range(2, 5):
+for col_idx in range(2, 9):
     ws.col(col_idx).width = 256 * 13
 tall_style = xlwt.easyxf('font:height 720;') # 36pt
 ws.row(0).set_style(tall_style)
 
 header_style = xlwt.easyxf('font: bold on; align: wrap on, vert centre, horiz center')
-ws.write(0, 2 , "Νυχτερινές ώρες", header_style)
-ws.write(0, 3 , "Ώρες Κυριακής", header_style)
-ws.write(0, 4 , "Ημέρες αναρρωτικής άδειας", header_style)
-ws.write(0, 5 , "Ημέρες άδειας", header_style)
+ws.write(0, 2 , "Νύκτες", header_style)
+ws.write(0, 3 , "Νύκτες Κυριακής", header_style)
+ws.write(0, 4 , "Σύνολο Νύκτες", header_style)
+ws.write(0, 5 , "Κυριακές", header_style)
+ws.write(0, 6 , "Σύνολο Κυριακές", header_style)
+ws.write(0, 7 , "Μέρες ασθένειας", header_style)
+ws.write(0, 8 , "Μέρες άδειας", header_style)
+ws.write(0, 9 , "Αργίες", header_style)
+ws.write(0, 10 , "Νύκτες Αργίας", header_style)
+ws.write(0, 11 , "Σύνολο Αργίες", header_style)
 
 employeesList = []
 for value in ShiftWork.employees_shiftwork.values():
@@ -122,9 +125,15 @@ for row_idx in range(1, len(employeesList) + 1):
     ws.write(row_idx, 0, employeesList[row_idx - 1].name, data_style)
     ws.write(row_idx, 1, employeesList[row_idx - 1].surname, data_style)
     ws.write(row_idx, 2, employeesList[row_idx - 1].NightHours, data_style)
-    ws.write(row_idx, 3, employeesList[row_idx - 1].SundayHours, data_style)
-    ws.write(row_idx, 4, employeesList[row_idx - 1].NoSickness, data_style)
-    ws.write(row_idx, 5, employeesList[row_idx - 1].NoLicense, data_style)
+    ws.write(row_idx, 3, employeesList[row_idx - 1].SundayNightHours, data_style)
+    ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours, header_style)
+    ws.write(row_idx, 5, employeesList[row_idx - 1].SundayHours, data_style)
+    ws.write(row_idx, 6, employeesList[row_idx - 1].SundayHours + employeesList[row_idx -1].SundayNightHours, header_style)
+    ws.write(row_idx, 7, employeesList[row_idx - 1].NoSickness, data_style)
+    ws.write(row_idx, 8, employeesList[row_idx - 1].NoLicense, data_style)
+    ws.write(row_idx, 9, employeesList[row_idx - 1].HolidayHours, data_style)
+    ws.write(row_idx, 10, employeesList[row_idx - 1].HolidayNightHours, data_style)
+    ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
 
 dir_path = s.files_path[0]
 save_path = dir_path + "/../shiftwork.xls"
