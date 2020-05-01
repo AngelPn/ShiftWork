@@ -108,11 +108,11 @@ header_style = xlwt.easyxf('font: bold on; align: wrap on, vert centre, horiz ce
 ws.write(0, 2 , "Νύκτες", header_style)
 ws.write(0, 3 , "Νύκτες Κυριακής", header_style)
 ws.write(0, 4 , "Σύνολο Νύκτες", header_style)
-ws.write(0, 5 , "Κυριακές", header_style)
+ws.write(0, 5 , "Ημέρα Κυριακές", header_style)
 ws.write(0, 6 , "Σύνολο Κυριακές", header_style)
 ws.write(0, 7 , "Μέρες ασθένειας", header_style)
 ws.write(0, 8 , "Μέρες άδειας", header_style)
-ws.write(0, 9 , "Αργίες", header_style)
+ws.write(0, 9 , "Ημέρα Αργίες", header_style)
 ws.write(0, 10 , "Νύκτες Αργίας", header_style)
 ws.write(0, 11 , "Σύνολο Αργίες", header_style)
 
