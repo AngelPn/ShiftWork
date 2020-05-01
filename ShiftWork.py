@@ -5,12 +5,10 @@ employees_shiftwork = {} #employees dictionary
 
 import datetime
 
-holidays = [] #list of year's holidays
-def create_holidays(year):
-    for x, y in Empl_mod.holidays.items():
-        holidays.append(datetime.datetime(year, x, y))
+def create_holidays(year, month, holiday):
+    return datetime.datetime(year, month, holiday)
 
-def read_xl(filename, month):
+def read_xl(filename, month, holiday):
     xl_workbook = xlrd.open_workbook(filename) #get workbook
     xl_sheet = xl_workbook.sheet_by_index(0) #get sheet 0 from workbook
 

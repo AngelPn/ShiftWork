@@ -1,9 +1,12 @@
 class Settings:
     def __init__(self):
         self.month = ""
+        self.has_holiday = False
+        self.holiday = ""
         self.files_path = []
 
     def set_month(self, m): self.month = m
+    def set_holiday(self, h): self.holiday = h
     def set_files_path(self, fp): self.files_path.append(fp)
 
 s = Settings()
@@ -13,14 +16,16 @@ import tkinter.ttk as ttk
 
 window = tk.Tk()
 window.iconbitmap("sw.ico")
-window.geometry('500x200')
+window.geometry('700x200')
 window.configure(background = "#181717")
 window.title("Καλωσήρθατε στην εφαρμογή ShiftWork")
+lbl = ttk.Label(window, text = " ", background = "#181717")
+lbl.grid( row = 0)
 
 #Question 1
-txt = "\n   Ποιος είναι ο μήνας του οποίου θέλετε να υπολογιστεί το shift work;"
+txt = "   Ποιος είναι ο μήνας του οποίου θέλετε να υπολογιστεί το shift work;    "
 lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
-lbl.grid(columnspan = 5)
+lbl.grid(columnspan = 6, row = 1)
 
 # This will create style object 
 style = ttk.Style()
@@ -32,12 +37,50 @@ combo.master.option_add( '*TCombobox*Listbox.background', '#181717')
 combo.master.option_add( '*TCombobox*Listbox.foreground', '#BFCFE2')
 combo.master.option_add( '*TCombobox*Listbox.selectBackground','#BFCFE2') #does not work
 combo.master.option_add( '*TCombobox*Listbox.selectForeground','#181717') #does not work  
-combo.grid(column=2, row=1)
+combo.grid(column=8, row=1)
 def set_values():
     s.set_month(combo.get())
     window.destroy()
 
 #Question 2
+txt = "Έχει ο μήνας επίσημη αργία;"
+lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
+lbl.grid( columnspan = 2, row = 2)
+
+def get_holiday():
+    def set_holiday():
+        s.set_holiday(combo.get())
+    s.has_holiday = True
+    txt = "Επίλεξε την ημέρα:"
+    lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
+    lbl.grid( column = 0, row = 3)
+    default_values = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"]
+    combo = ttk.Combobox(window, values = default_values, style = 'TCombobox', width = 3 )
+    combo.master.option_add( '*TCombobox*Listbox.background', '#181717')
+    combo.master.option_add( '*TCombobox*Listbox.foreground', '#BFCFE2')
+    combo.master.option_add( '*TCombobox*Listbox.selectBackground','#BFCFE2') 
+    combo.master.option_add( '*TCombobox*Listbox.selectForeground','#181717')
+    combo.grid(column = 1, row = 3)
+    holiday_button = tk.Button(window, 
+        text = 'OK',
+        font = ("Calibri", 10, "bold"),
+        foreground = "#181717",
+        background = "#BFCFE2",
+        width = 4,
+        command = set_holiday)#set holiday
+    holiday_button.grid(column = 2, row = 3)
+    lbl = ttk.Label(window, text = " ", background = "#181717")
+    lbl.grid( row = 4)
+
+check1 = tk.Checkbutton(window,
+    text = "Ναι",
+    font = ("Arial", 12),
+    foreground = "#BFCFE2", 
+    background = "#181717",
+    command = get_holiday)
+check1.grid(column = 2, row = 2)
+
+#Question 3
 from tkinter.filedialog import askopenfiles
 
 def open_files():
@@ -48,7 +91,7 @@ def open_files():
         x += 1
     txt = "Τα αρχεία είναι έτοιμα!"
     lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
-    lbl.grid(column = 2, row = 5)
+    lbl.grid(column = 0, row = 6)
     value_button = tk.Button(window, 
         text = 'OK',
         font = ("Calibri", 10, "bold"),
@@ -56,7 +99,7 @@ def open_files():
         background = "#BFCFE2",
         width = 4,
         command = set_values)#set values
-    value_button.grid(column = 3, row = 5)
+    value_button.grid(column = 1, row = 6)
 
 files_button = tk.Button(window, 
     text = 'Επίλεξε τα αρχεία',
@@ -66,7 +109,7 @@ files_button = tk.Button(window,
     foreground = "#181717",
     width = 15,
     command = open_files )
-files_button.grid(column = 2, row = 4)
+files_button.grid(column = 0, row = 5)
 
 col_count, row_count = window.grid_size()
 for row in range(1,row_count):
@@ -91,7 +134,7 @@ months = {
 import ShiftWork
 
 for x in s.files_path:
-    ShiftWork.read_xl(x, months[s.month])
+    ShiftWork.read_xl(x, months[s.month], s.holiday)
 
 import xlwt
 
