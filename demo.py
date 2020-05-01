@@ -136,5 +136,5 @@ for row_idx in range(1, len(employeesList) + 1):
     ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
 
 dir_path = s.files_path[0]
-save_path = dir_path + "/../shiftwork.xls"
+save_path = dir_path + "/../" + s.month + ".xls"
 wb.save(save_path)
