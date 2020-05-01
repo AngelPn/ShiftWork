@@ -37,7 +37,8 @@ def read_xl(filename, month, holiday):
         if bool(holiday): date_holiday = create_holidays(year_end, int(month), int(holiday))
     
     col_holiday = -1
-    if bool(holiday): col_holiday = Empl_mod.weekdays[date_holiday.strftime("%A")]
+    if bool(holiday) and date_holiday<=date_end and date_holiday>=date_start: col_holiday = Empl_mod.weekdays[date_holiday.strftime("%A")]
+    print(col_holiday)
 
     for row_idx in range(7, xl_sheet.nrows):
         key = xl_sheet.cell_value(row_idx, 0) + xl_sheet.cell_value(row_idx, 1)
