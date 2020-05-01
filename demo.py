@@ -153,9 +153,6 @@ ws.write(0, 5 , "Ημέρα Κυριακές", header_style)
 ws.write(0, 6 , "Σύνολο Κυριακές", header_style)
 ws.write(0, 7 , "Μέρες ασθένειας", header_style)
 ws.write(0, 8 , "Μέρες άδειας", header_style)
-ws.write(0, 9 , "Ημέρα Αργίες", header_style)
-ws.write(0, 10 , "Νύκτες Αργίας", header_style)
-ws.write(0, 11 , "Σύνολο Αργίες", header_style)
 
 employeesList = []
 for value in ShiftWork.employees_shiftwork.values():
@@ -172,9 +169,15 @@ for row_idx in range(1, len(employeesList) + 1):
     ws.write(row_idx, 6, employeesList[row_idx - 1].SundayHours + employeesList[row_idx -1].SundayNightHours, header_style)
     ws.write(row_idx, 7, employeesList[row_idx - 1].NoSickness, data_style)
     ws.write(row_idx, 8, employeesList[row_idx - 1].NoLicense, data_style)
-    ws.write(row_idx, 9, employeesList[row_idx - 1].HolidayHours, data_style)
-    ws.write(row_idx, 10, employeesList[row_idx - 1].HolidayNightHours, data_style)
-    ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
+
+if bool(s.holiday):
+    ws.write(0, 9 , "Ημέρα Αργίες", header_style)
+    ws.write(0, 10 , "Νύκτες Αργίας", header_style)
+    ws.write(0, 11 , "Σύνολο Αργίες", header_style)
+    for row_idx in range(1, len(employeesList) + 1):
+        ws.write(row_idx, 9, employeesList[row_idx - 1].HolidayHours, data_style)
+        ws.write(row_idx, 10, employeesList[row_idx - 1].HolidayNightHours, data_style)
+        ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
 
 dir_path = s.files_path[0]
 save_path = dir_path + "/../" + s.month + ".xls"
