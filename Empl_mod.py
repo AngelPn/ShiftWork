@@ -15,6 +15,7 @@ class Employee:
         self.NightHours = 0
         self.SundayHours = 0
         self.SundayNightHours = 0
+        self.TotalSunday = 0
         self.NoSickness = 0
         self.NoLicense = 0
         self.HolidayHours = 0
@@ -34,6 +35,7 @@ class Employee:
             else: pass
         else:
             if day == weekdays["Sunday"]:
+                self.TotalSunday += 1
                 if cell == "06:00 - 14:00" or cell == "14:00 - 22:00": self.SundayHours += 8
                 elif cell == "22:00 - 06:00":
                     self.NightHours += 6
