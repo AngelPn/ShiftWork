@@ -1,7 +1,6 @@
 class Settings:
     def __init__(self):
         self.month = ""
-        self.has_holiday = False
         self.holiday = ""
         self.files_path = []
 
@@ -50,7 +49,6 @@ lbl.grid( columnspan = 2, row = 2)
 def get_holiday():
     def set_holiday():
         s.set_holiday(combo.get())
-    s.has_holiday = True
     txt = "Επίλεξε την ημέρα:"
     lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
     lbl.grid( column = 0, row = 3)
