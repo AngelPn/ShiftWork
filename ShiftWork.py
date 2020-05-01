@@ -26,20 +26,18 @@ def read_xl(filename, month, holiday):
     if date_start.strftime("%m") != month:
         col_start = Empl_mod.weekdays[datetime.datetime(year_end, int(month), 1).strftime("%A")]
         col_end = Empl_mod.weekdays["Sunday"]
-        create_holidays(year_end)
+        if holiday: date_holiday = create_holidays(year_end, int(month), int(holiday))
     elif date_end.strftime("%m") != month:
         col_start = Empl_mod.weekdays["Monday"]
         col_end = Empl_mod.weekdays[datetime.datetime(year_start, int(month) + 1, 1).strftime("%A")] - 1
-        create_holidays(year_start)
+        if holiday: date_holiday = create_holidays(year_start, int(month), int(holiday))
     else:
         col_start = Empl_mod.weekdays["Monday"]
         col_end = Empl_mod.weekdays["Sunday"]
-        create_holidays(year_end)
+        if holiday: date_holiday = create_holidays(year_end, int(month), int(holiday))
     
     col_holiday = -1
-    for x in holidays:
-        if x > date_start and x < date_end:
-            col_holiday = Empl_mod.weekdays[x.strftime("%A")]
+    if holiday: col_holiday = date_holiday[strftime("%A")]
 
     for row_idx in range(7, xl_sheet.nrows):
         key = xl_sheet.cell_value(row_idx, 0) + xl_sheet.cell_value(row_idx, 1)

@@ -8,14 +8,6 @@ weekdays = {
     "Sunday" : 8
 }
 
-holidays = { # month : day
-    1 : 6,
-    3 : 25,
-    8 : 15,
-    10 : 28,
-    12 : 25
-}
-
 class Employee:
     def __init__(self, name, surname):
         self.name = name 
