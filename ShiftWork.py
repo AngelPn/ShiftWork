@@ -1,12 +1,8 @@
 import xlrd
+import datetime
 import Empl_mod
 
 employees_shiftwork = {} #employees dictionary
-
-import datetime
-
-def create_holidays(year, month, holiday):
-    return datetime.datetime(year, month, holiday)
 
 def read_xl(filename, month, holiday):
     xl_workbook = xlrd.open_workbook(filename) #get workbook
@@ -23,7 +19,7 @@ def read_xl(filename, month, holiday):
     day_end = int(txt[2].rpartition("\\")[0].partition("\\")[0])
     date_end = datetime.datetime(year_end, month_end, day_end)
 
-    week_dates = []
+    week_dates = [] #Create a list of week dates
     delta = date_end - date_start
     for i in range(delta.days + 1):
         week_dates.append(date_start + datetime.timedelta(days=i))
@@ -31,15 +27,15 @@ def read_xl(filename, month, holiday):
     if date_start.strftime("%m") != month:
         col_start = Empl_mod.weekdays[datetime.datetime(year_end, int(month), 1).strftime("%A")]
         col_end = Empl_mod.weekdays["Sunday"]
-        if bool(holiday): date_holiday = create_holidays(year_end, int(month), int(holiday))
+        if bool(holiday): date_holiday = datetime.datetime(year_end, int(month), int(holiday))
     elif date_end.strftime("%m") != month:
         col_start = Empl_mod.weekdays["Monday"]
         col_end = Empl_mod.weekdays[datetime.datetime(year_start, int(month) + 1, 1).strftime("%A")] - 1
-        if bool(holiday): date_holiday = create_holidays(year_start, int(month), int(holiday))
+        if bool(holiday): date_holiday = datetime.datetime(year_start, int(month), int(holiday))
     else:
         col_start = Empl_mod.weekdays["Monday"]
         col_end = Empl_mod.weekdays["Sunday"]
-        if bool(holiday): date_holiday = create_holidays(year_end, int(month), int(holiday))
+        if bool(holiday): date_holiday = datetime.datetime(year_end, int(month), int(holiday))
     
     col_holiday = -1
     if bool(holiday) and date_holiday<=date_end and date_holiday>=date_start:
