@@ -20,8 +20,9 @@ class Employee:
         self.NoLicense = 0
         self.HolidayHours = 0
         self.HolidayNightHours = 0
+        self.LicenseDates = []
 
-    def add_info(self, cell, day, holiday):
+    def add_info(self, cell, day, holiday, date):
         if holiday:
             if cell == "06:00 - 14:00" or cell == "14:00 - 22:00": self.HolidayHours += 8
             elif cell == "22:00 - 06:00" and day == weekdays["Saturday"]:
@@ -31,7 +32,9 @@ class Employee:
                 self.NightHours += 6
                 self.HolidayNightHours += 2
             elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ" : self.NoSickness += 1
-            elif cell == "ΑΔΕΙΑ": self.NoLicense += 1
+            elif cell == "ΑΔΕΙΑ":
+                self.NoLicense += 1
+                self.LicenseDates.append(date)
             else: pass
         else:
             if day == weekdays["Sunday"]:
@@ -41,7 +44,9 @@ class Employee:
                     self.NightHours += 6
                     self.SundayNightHours += 2
                 elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ" : self.NoSickness += 1
-                elif cell == "ΑΔΕΙΑ": self.NoLicense += 1
+                elif cell == "ΑΔΕΙΑ":
+                    self.NoLicense += 1
+                    self.LicenseDates.append(date)
                 else: pass
             elif day == weekdays["Saturday"] and cell == "22:00 - 06:00":
                 self.NightHours += 2
@@ -49,5 +54,7 @@ class Employee:
             else:
                 if cell == "22:00 - 06:00": self.NightHours += 8
                 elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ": self.NoSickness += 1
-                elif cell == "ΑΔΕΙΑ": self.NoLicense += 1
+                elif cell == "ΑΔΕΙΑ":
+                    self.NoLicense += 1
+                    self.LicenseDates.append(date)
                 else: pass

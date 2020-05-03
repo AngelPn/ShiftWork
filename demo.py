@@ -181,6 +181,19 @@ if bool(s.holiday):
         ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayNightHours, data_style)
         ws.write(row_idx, 12, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
 
+ws2 = wb.add_sheet("Ημερομηνίες Άδειας")
+ws2.col(0).width = 256 * 20  # 20 characters wide (-ish)
+for col_idx in range(1, 7):
+    ws2.col(col_idx).width = 256 * 13
+
+for row_idx in range(0, len(employeesList)):
+    ws2.write(row_idx, 0, employeesList[row_idx].name, data_style)
+    ws2.write(row_idx, 1, employeesList[row_idx].surname, data_style)
+    col_idx = 2
+    for x in employeesList[row_idx].LicenseDates:
+        ws2.write(row_idx, col_idx,  x.strftime("%x"), data_style)
+        col_idx += 1
+
 dir_path = s.files_path[0]
 save_path = dir_path + "/../" + s.month + ".xls"
 wb.save(save_path)

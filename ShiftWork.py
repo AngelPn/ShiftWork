@@ -23,6 +23,11 @@ def read_xl(filename, month, holiday):
     day_end = int(txt[2].rpartition("\\")[0].partition("\\")[0])
     date_end = datetime.datetime(year_end, month_end, day_end)
 
+    week_dates = []
+    delta = date_end - date_start
+    for i in range(delta.days + 1):
+        week_dates.append(date_start + datetime.timedelta(days=i))
+
     if date_start.strftime("%m") != month:
         col_start = Empl_mod.weekdays[datetime.datetime(year_end, int(month), 1).strftime("%A")]
         col_end = Empl_mod.weekdays["Sunday"]
@@ -50,5 +55,5 @@ def read_xl(filename, month, holiday):
             employees_shiftwork[key] = Empl_mod.Employee(xl_sheet.cell_value(row_idx, 0), xl_sheet.cell_value(row_idx, 1))
         for col_idx in range(col_start, col_end+1):
             cell_value = xl_sheet.cell_value(row_idx, col_idx)  # Get cell object by row, col
-            employees_shiftwork[key].add_info(cell_value, col_idx, col_idx == col_holiday)
+            employees_shiftwork[key].add_info(cell_value, col_idx, col_idx == col_holiday, week_dates[col_idx-2])
         row_idx += 1
