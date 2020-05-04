@@ -38,11 +38,13 @@ class Employee:
             else: pass
         else:
             if day == weekdays["Sunday"]:
-                self.TotalSunday += 1
-                if cell == "06:00 - 14:00" or cell == "14:00 - 22:00": self.SundayHours += 8
+                if cell == "06:00 - 14:00" or cell == "14:00 - 22:00":
+                    self.SundayHours += 8
+                    self.TotalSunday += 1
                 elif cell == "22:00 - 06:00":
                     self.NightHours += 6
                     self.SundayNightHours += 2
+                    self.TotalSunday += 1
                 elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ" : self.NoSickness += 1
                 elif cell == "ΑΔΕΙΑ":
                     self.NoLicense += 1
