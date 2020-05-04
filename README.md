@@ -1,7 +1,7 @@
 # Project
 An application that reads the weekly timesheets of employees of a greek organisation that cover a month from excel files and creates a new excel file with two sheets: 
-- The first sheet, called "ShiftWork", has concentrated the shift work of every employee within a month. Specifically, the night work hours, the (night) work hours on Sunday, the total work hours on Sunday, the numbers of days of illness and of days of licenses and the (night) work hours of holiday, if there is a holiday in the month. These shift works are interested because they receive payrolls increases. 
-- The second sheet, called "Ημερομηνίες Αδειών", has concentrated the dates of licenses for every employee within the month.
+- The first sheet, called "ShiftWork", concentrates the monthly shift work of every employee. Specifically, the night work hours, the Sunday (night) work hours, the total Sunday work hours, the numbers of days of illness and of days of licenses and the holiday (night) work hours, if there is a holiday in the month. These shift works are interested because they receive payroll increases. 
+- The second sheet, called "Ημερομηνίες Αδειών", concentrates the dates of licenses for every employee within the month.
 
 # Idea and Implementation
 The application was a request from accountant [Panagopoulos Konstantinos](https://taxinfo.gr). It is designed to work on the basis of a specific format of excel files that you can find in folder named "excel_files". This folder contains the generated excel file as well. Both weekly timesheets excel files and the generated excel file is written in greek language.
@@ -12,4 +12,19 @@ You can also run the program on Command Prompt:
 ```sh
 $ python demo.py
 ```
-A Graphical User Interface will open written in greek language. The month for which we want to get the shift works and if the month has holiday are requested. The GUI includes two questions.
+A Graphical User Interface will appear written in greek language. It includes two questions from which we will get the month and the holiday, if it has one. After that, the user can load the excel files. The generated excel file will be saved in the same location path as the chosen ones.
+
+# Note
+The program is using xlrd and xlwt python libraries for reading from and writing to excel files. So, it is necessary these libraries to be installed in your PC before running the program.
+
+# Implementation Details
+There are three work hours in the weekly timesheets:
+1) 06:00-14:00
+2) 14:00-22:00
+3) 22:00-06:00
+
+The night work hours (3) receive different payroll increase in weekends. On Saturdays, we count 2 hours of night work hours and 6 hours of Sunday night work hours. On Sundays, we count 2 hours of Sunday night work hours and 6 hours of night work hours.
+As for the number of days of illness, the program tracks the cells that mention "ΑΝΑΡΡΩΤΙΚΗ ΑΔΕΙΑ". Respectively, the program tracks the cells that mention "ΑΔΕΙΑ" for the number of days of license.
+
+# ShiftWork as an app for accountants
+ShiftWork could be an application that generates the monthly shift work of employees of any organisation or company. To accomplish that, the GUI should contain questions to obtain the information needed to make the program work, such as the work hours, the segments of employees, the dates that cover every weekly timesheet etc.
