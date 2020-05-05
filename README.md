@@ -7,8 +7,8 @@ An application that reads the weekly timesheets of employees of a greek organisa
     4) number of days of illness
     5) number of days off
     6) holiday (night) work hours, provided that there is a holiday in the month.
-These shift works are of interest because they result in a payroll increase. 
-- The second sheet, called "Ημερομηνίες Αδειών", concentrates the dates of licenses for every employee within the month.
+  These shift works are of interest because they result in a payroll increase. 
+- The second sheet, called "Ημερομηνίες Αδειών", concentrates the dates of days off for every employee within the month.
 
 # Idea and Implementation
 The application was a request from the accountant [Panagopoulos Konstantinos](https://taxinfo.gr). It is designed to work on the basis of a specific format of excel files that you can find in a folder named "excel_files". This folder contains the generated excel file as well. Both weekly timesheet excel files and the generated excel file are written in greek.
