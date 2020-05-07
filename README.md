@@ -17,7 +17,7 @@ The application was a request from the accountant [Panagopoulos Konstantinos](ht
 By downloading the repo, you can simply double-click the ShiftWork.bat.
 You can also run the program on Command Prompt:
 ```sh
-$ python demo.py
+$ python shiftwork.py
 ```
 A Graphical User Interface will appear written in greek language. It includes two questions from which we will get the month and the holiday, if it has one. After that, the user can load the excel files. The generated excel file will be saved in the same location path as the chosen ones.
 
