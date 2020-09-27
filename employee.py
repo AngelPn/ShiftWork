@@ -28,8 +28,9 @@ class Employee:
             elif cell == "22:00 - 06:00" and day == weekdays["Saturday"]:
                 self.SundayNightHours += 6
                 self.HolidayNightHours += 2
+                self.TotalSunday += 1
             elif cell == "22:00 - 06:00":
-                self.NightHours += 6
+                self.NightHours += 8
                 self.HolidayNightHours += 2
             elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ" : self.NoSickness += 1
             elif cell == "ΑΔΕΙΑ":
@@ -42,7 +43,7 @@ class Employee:
                     self.SundayHours += 8
                     self.TotalSunday += 1
                 elif cell == "22:00 - 06:00":
-                    self.NightHours += 6
+                    self.NightHours += 8
                     self.SundayNightHours += 2
                     self.TotalSunday += 1
                 elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ" : self.NoSickness += 1
@@ -51,8 +52,9 @@ class Employee:
                     self.LicenseDates.append(date)
                 else: pass
             elif day == weekdays["Saturday"] and cell == "22:00 - 06:00":
-                self.NightHours += 2
+                self.NightHours += 8
                 self.SundayNightHours +=6
+                self.TotalSunday += 1
             else:
                 if cell == "22:00 - 06:00": self.NightHours += 8
                 elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ": self.NoSickness += 1
