@@ -1,3 +1,3 @@
 rem Hideself
-python demo.py
+python ShiftWork.py
 pause
