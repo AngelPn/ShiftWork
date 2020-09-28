@@ -28,6 +28,7 @@ class Employee:
             elif cell == "22:00 - 06:00" and day == weekdays["Saturday"]:
                 self.SundayNightHours += 6
                 self.HolidayNightHours += 2
+                self.NightHours += 8
                 self.TotalSunday += 1
             elif cell == "22:00 - 06:00":
                 self.NightHours += 8
@@ -53,7 +54,7 @@ class Employee:
                 else: pass
             elif day == weekdays["Saturday"] and cell == "22:00 - 06:00":
                 self.NightHours += 8
-                self.SundayNightHours +=6
+                self.SundayNightHours += 6
                 self.TotalSunday += 1
             else:
                 if cell == "22:00 - 06:00": self.NightHours += 8
