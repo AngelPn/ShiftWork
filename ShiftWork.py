@@ -165,7 +165,10 @@ for row_idx in range(1, len(employeesList) + 1):
     ws.write(row_idx, 1, employeesList[row_idx - 1].surname, data_style)
     ws.write(row_idx, 2, employeesList[row_idx - 1].NightHours, data_style)
     ws.write(row_idx, 3, employeesList[row_idx - 1].SundayNightHours, data_style)
-    ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours, header_style)
+    if bool(s.holiday):
+        ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
+    else:
+        ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours, header_style)
     ws.write(row_idx, 5, employeesList[row_idx - 1].SundayHours, data_style)
     ws.write(row_idx, 6, employeesList[row_idx - 1].SundayHours + employeesList[row_idx -1].SundayNightHours, header_style)
     ws.write(row_idx, 7, employeesList[row_idx - 1].TotalSunday, data_style)
@@ -177,7 +180,6 @@ if bool(s.holiday):
     ws.write(0, 11 , "Νύκτες Αργίας", header_style)
     ws.write(0, 12 , "Σύνολο Αργίες", header_style)
     for row_idx in range(1, len(employeesList) + 1):
-        ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
         ws.write(row_idx, 10, employeesList[row_idx - 1].HolidayHours, data_style)
         ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayNightHours, data_style)
         ws.write(row_idx, 12, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
