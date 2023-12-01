@@ -14,7 +14,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 window = tk.Tk()
-window.iconbitmap("sw.ico")
+window.iconbitmap("app/sw.ico")
 window.geometry('700x200')
 window.configure(background = "#181717")
 window.title("Καλωσήρθατε στην εφαρμογή ShiftWork")
@@ -146,43 +146,38 @@ tall_style = xlwt.easyxf('font:height 720;') # 36pt
 ws.row(0).set_style(tall_style)
 
 header_style = xlwt.easyxf('font: bold on; align: wrap on, vert centre, horiz center')
-ws.write(0, 2 , "Νύκτες", header_style)
-ws.write(0, 3 , "Νύκτες Κυριακής", header_style)
-ws.write(0, 4 , "Σύνολο Νύκτες", header_style)
-ws.write(0, 5 , "Ημέρα Κυριακές", header_style)
-ws.write(0, 6 , "Σύνολο Κυριακές", header_style)
-ws.write(0, 7 , "Πλήθος Κυριακών", header_style)
-ws.write(0, 8 , "Μέρες ασθένειας", header_style)
-ws.write(0, 9 , "Μέρες άδειας", header_style)
+ws.write(0, 2 , "Νύκτα", header_style) # NightHours
+ws.write(0, 3 , "Νύκτα Κυριακής", header_style) # SundayNightHours
+ws.write(0, 4 , "Ημέρα Κυριακής", header_style) # SundayHours
+ws.write(0, 5 , "Πλήθος Κυριακών", header_style) # TotalSunday
+ws.write(0, 6 , "Μέρες ασθένειας", header_style) # NoSickness
+ws.write(0, 7 , "Μέρες άδειας", header_style) # NoLicense
 
 employeesList = []
 for value in xl_parsing.employees_shiftwork.values():
     employeesList.append(value)
 
-data_style = xlwt.easyxf('align: wrap on, vert centre, horiz center')   
+data_style = xlwt.easyxf('align: wrap on, vert centre, horiz center')
 for row_idx in range(1, len(employeesList) + 1):
     ws.write(row_idx, 0, employeesList[row_idx - 1].name, data_style)
     ws.write(row_idx, 1, employeesList[row_idx - 1].surname, data_style)
     ws.write(row_idx, 2, employeesList[row_idx - 1].NightHours, data_style)
     ws.write(row_idx, 3, employeesList[row_idx - 1].SundayNightHours, data_style)
-    if bool(s.holiday):
-        ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
-    else:
-        ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours, header_style)
-    ws.write(row_idx, 5, employeesList[row_idx - 1].SundayHours, data_style)
-    ws.write(row_idx, 6, employeesList[row_idx - 1].SundayHours + employeesList[row_idx -1].SundayNightHours, header_style)
-    ws.write(row_idx, 7, employeesList[row_idx - 1].TotalSunday, data_style)
-    ws.write(row_idx, 8, employeesList[row_idx - 1].NoSickness, data_style)
-    ws.write(row_idx, 9, employeesList[row_idx - 1].NoLicense, data_style)
+    ws.write(row_idx, 4, employeesList[row_idx - 1].SundayHours, data_style)
+    ws.write(row_idx, 5, employeesList[row_idx - 1].TotalSunday, data_style)
+    ws.write(row_idx, 6, employeesList[row_idx - 1].NoSickness, data_style)
+    ws.write(row_idx, 7, employeesList[row_idx - 1].NoLicense, data_style)
 
 if bool(s.holiday):
-    ws.write(0, 10 , "Ημέρα Αργίες", header_style)
-    ws.write(0, 11 , "Νύκτες Αργίας", header_style)
-    ws.write(0, 12 , "Σύνολο Αργίες", header_style)
+    ws.write(0, 8 , "Ημέρα Αργίας", header_style) 
+    ws.write(0, 9, "Νύκτα Αργίας", header_style) 
+    ws.write(0, 10, "Σύνολο ημέρας Κυριακής-Αργίας", header_style) 
+    ws.write(0, 11, "Σύνολο νύκτας Κυριακής-Αργίας", header_style) 
     for row_idx in range(1, len(employeesList) + 1):
-        ws.write(row_idx, 10, employeesList[row_idx - 1].HolidayHours, data_style)
-        ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayNightHours, data_style)
-        ws.write(row_idx, 12, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
+        ws.write(row_idx, 8, employeesList[row_idx - 1].HolidayHours, data_style)
+        ws.write(row_idx, 9, employeesList[row_idx - 1].HolidayNightHours, data_style)
+        ws.write(row_idx, 10, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].SundayHours, header_style)
+        ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayNightHours + employeesList[row_idx - 1].SundayNightHours, header_style)
 
 ws2 = wb.add_sheet("Ημερομηνίες Άδειας")
 ws2.col(0).width = 256 * 20  # 20 characters wide (-ish)
