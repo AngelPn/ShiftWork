@@ -59,6 +59,8 @@ def read_xl(filename, month, holidays):
             )
         row_idx += 1
 
+    return len(col_holidays)
+
 def get_col_holidays(date_start, date_end, mandatory_holidays):
     col_holidays = []
     for holiday in mandatory_holidays:

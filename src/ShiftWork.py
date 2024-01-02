@@ -143,8 +143,11 @@ months = {
 
 import xl_parsing
 
+hasHoliday = False
+
 for x in s.files_path:
-    xl_parsing.read_xl(x, months[s.month], s.holidays)
+    if (xl_parsing.read_xl(x, months[s.month], s.holidays)):
+        hasHoliday = True
 
 import xlwt
 
@@ -180,7 +183,7 @@ for row_idx in range(1, len(employeesList) + 1):
     ws.write(row_idx, 6, employeesList[row_idx - 1].NoSickness, data_style)
     ws.write(row_idx, 7, employeesList[row_idx - 1].NoLicense, data_style)
 
-if (len(s.holidays) > 0):
+if (hasHoliday):
     ws.write(0, 8 , "Ημέρα Αργίας", header_style) 
     ws.write(0, 9, "Νύκτα Αργίας", header_style) 
     ws.write(0, 10, "Σύνολο ημέρας Κυριακής-Αργίας", header_style) 
