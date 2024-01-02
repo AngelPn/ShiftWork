@@ -36,7 +36,7 @@ class Employee:
                 self.SundayNightHours += 2
                 self.TotalSunday += 1
             elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ" : self.NoSickness += 1
-            elif cell == "ΑΔΕΙΑ" or cell == "ΡΕΠΟ":
+            elif cell == "ΑΔΕΙΑ":
                 self.NoLicense += 1
                 self.LicenseDates.append(date)
             else: pass
@@ -52,7 +52,7 @@ class Employee:
                 self.NightHours += 8
                 self.HolidayNightHours += 2
             elif cell == "ΑΝΑΡ. ΑΔΕΙΑ" or cell == "ΑΣΘΕΝΕΙΑ" or cell == "ΑΔΕΙΑΣ ΚΥΗΣΗΣ" : self.NoSickness += 1
-            elif cell == "ΑΔΕΙΑ" or cell == "ΡΕΠΟ":
+            elif cell == "ΑΔΕΙΑ":
                 self.NoLicense += 1
                 self.LicenseDates.append(date)
             else: pass
