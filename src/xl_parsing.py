@@ -4,7 +4,7 @@ import employee
 
 employees_shiftwork = {} #employees dictionary
 
-def read_xl(filename, month, holiday):
+def read_xl(filename, month, holidays):
     xl_workbook = xlrd.open_workbook(filename) #get workbook
     xl_sheet = xl_workbook.sheet_by_index(0) #get sheet 0 from workbook
 
@@ -27,19 +27,17 @@ def read_xl(filename, month, holiday):
     if date_start.strftime("%m") != month:
         col_start = employee.weekdays[datetime.datetime(year_end, int(month), 1).strftime("%A")]
         col_end = employee.weekdays["Sunday"]
-        if bool(holiday): date_holiday = datetime.datetime(year_end, int(month), int(holiday))
+        mandatory_holidays = get_mandatory_holidays(year_end, month, holidays)
     elif date_end.strftime("%m") != month:
         col_start = employee.weekdays["Monday"]
         col_end = employee.weekdays[datetime.datetime(year_start, int(month) + 1, 1).strftime("%A")] - 1
-        if bool(holiday): date_holiday = datetime.datetime(year_start, int(month), int(holiday))
+        mandatory_holidays = get_mandatory_holidays(year_start, month, holidays)
     else:
         col_start = employee.weekdays["Monday"]
         col_end = employee.weekdays["Sunday"]
-        if bool(holiday): date_holiday = datetime.datetime(year_end, int(month), int(holiday))
+        mandatory_holidays = get_mandatory_holidays(year_end, month, holidays)
     
-    col_holiday = -1
-    if bool(holiday) and date_holiday<=date_end and date_holiday>=date_start:
-        col_holiday = employee.weekdays[date_holiday.strftime("%A")]
+    col_holidays = get_col_holidays(date_start, date_end, mandatory_holidays)
 
     for row_idx in range(7, xl_sheet.nrows):
         key = xl_sheet.cell_value(row_idx, 0) + xl_sheet.cell_value(row_idx, 1)
@@ -51,5 +49,36 @@ def read_xl(filename, month, holiday):
             employees_shiftwork[key] = employee.Employee(xl_sheet.cell_value(row_idx, 0), xl_sheet.cell_value(row_idx, 1))
         for col_idx in range(col_start, col_end+1):
             cell_value = xl_sheet.cell_value(row_idx, col_idx)  # Get cell object by row, col
-            employees_shiftwork[key].add_info(cell_value, col_idx, col_idx == col_holiday, week_dates[col_idx-2])
+
+            employees_shiftwork[key].add_info(
+                cell_value, 
+                col_idx, 
+                week_dates[col_idx-2],
+                col_idx in col_holidays, 
+                col_idx + 1 in col_holidays
+            )
         row_idx += 1
+
+    return len(col_holidays)
+
+def get_col_holidays(date_start, date_end, mandatory_holidays):
+    col_holidays = []
+    for holiday in mandatory_holidays:
+        if holiday <= date_end and holiday >= date_start:
+            col_holidays.append(employee.weekdays[holiday.strftime("%A")])
+    return col_holidays
+
+def get_mandatory_holidays(year, month, holidays):
+    mandatory_holidays = [
+        datetime.datetime(year, 1, 1), 
+        datetime.datetime(year, 1, 6), 
+        datetime.datetime(year, 3, 25), 
+        datetime.datetime(year, 5, 1), 
+        datetime.datetime(year, 8, 15), 
+        datetime.datetime(year, 10, 28), 
+        datetime.datetime(year, 12, 25), 
+        datetime.datetime(year, 12, 26)
+    ]
+    for day in holidays:
+        mandatory_holidays.append(datetime.datetime(year, int(month), int(day)))
+    return mandatory_holidays

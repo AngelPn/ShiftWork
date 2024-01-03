@@ -1,11 +1,11 @@
 class Settings:
     def __init__(self):
         self.month = ""
-        self.holiday = ""
+        self.holidays = []
         self.files_path = []
 
     def set_month(self, m): self.month = m
-    def set_holiday(self, h): self.holiday = h
+    def set_holidays(self, h): self.holidays = h
     def set_files_path(self, fp): self.files_path.append(fp)
 
 s = Settings()
@@ -14,69 +14,81 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 window = tk.Tk()
-window.iconbitmap("sw.ico")
+window.iconbitmap("app/sw.ico")
 window.geometry('700x200')
 window.configure(background = "#181717")
-window.title("Καλωσήρθατε στην εφαρμογή ShiftWork")
+window.title("ShiftWork")
 lbl = ttk.Label(window, text = " ", background = "#181717")
-lbl.grid( row = 0)
+lbl.grid(row = 0)
 
 #Question 1
-txt = "   Ποιος είναι ο μήνας του οποίου θέλετε να υπολογιστεί το shift work;    "
+txt = "Επίλεξε μήνα"
 lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
-lbl.grid(columnspan = 6, row = 1)
+lbl.grid(column = 0, row = 1)
 
 # This will create style object 
 style = ttk.Style()
 style.configure('TCombobox', foreground = "#181717", bg = "red") 
 default_values = ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"]
 
-combo = ttk.Combobox(window, values = default_values, style = 'TCombobox', width = 15 )
+combo = ttk.Combobox(window, values = default_values, style = 'TCombobox', width = 12 )
 combo.master.option_add( '*TCombobox*Listbox.background', '#181717')
 combo.master.option_add( '*TCombobox*Listbox.foreground', '#BFCFE2')
 combo.master.option_add( '*TCombobox*Listbox.selectBackground','#BFCFE2') #does not work
 combo.master.option_add( '*TCombobox*Listbox.selectForeground','#181717') #does not work  
-combo.grid(column=8, row=1)
+combo.grid(column = 1, row = 1)
 def set_values():
     s.set_month(combo.get())
     window.destroy()
 
 #Question 2
-txt = "Έχει ο μήνας επίσημη αργία;"
+txt_holidays = "    Οι αργίες 01/01, 06/01, 25/03, 01/05, 15/08, 28/10, 25/12, 26/12 υπολογίζονται αυτόματα."
+lbl = ttk.Label(window, text = txt_holidays, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
+lbl.grid(column = 0, columnspan = 12, row = 3)
+
+txt = "Έχει ο μήνας επιπλέον αργίες;"
 lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
-lbl.grid( columnspan = 2, row = 2)
+lbl.grid(column = 0, columnspan = 2, row = 4)
 
-def get_holiday():
-    def set_holiday():
-        s.set_holiday(combo.get())
-    txt = "Επίλεξε την ημέρα:"
-    lbl = ttk.Label(window, text = txt, font = ("Arial", 12), foreground = "#BFCFE2", background = "#181717")
-    lbl.grid( column = 0, row = 3)
-    default_values = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"]
-    combo = ttk.Combobox(window, values = default_values, style = 'TCombobox', width = 3 )
-    combo.master.option_add( '*TCombobox*Listbox.background', '#181717')
-    combo.master.option_add( '*TCombobox*Listbox.foreground', '#BFCFE2')
-    combo.master.option_add( '*TCombobox*Listbox.selectBackground','#BFCFE2') 
-    combo.master.option_add( '*TCombobox*Listbox.selectForeground','#181717')
-    combo.grid(column = 1, row = 3)
+def get_holidays():
+    txt = "Γράψε τις αργίες:"
+    lbl = ttk.Label(window, text=txt, font=("Arial", 12), foreground="#BFCFE2", background="#181717")
+    lbl.grid(column = 0, row = 5)
+
+    holidays_input = tk.StringVar()
+
+    def set_holidays():
+        selected_holidays = [holiday.strip() for holiday in holidays_input.get().split(",")]
+        s.set_holidays(selected_holidays)
+
+    holidays_entry = tk.Entry(window, textvariable = holidays_input, font=("Arial", 12), width = 6)
+    holidays_entry.grid(column = 1, row = 5)
+
     holiday_button = tk.Button(window, 
-        text = 'OK',
-        font = ("Calibri", 10, "bold"),
-        foreground = "#181717",
-        background = "#BFCFE2",
-        width = 4,
-        command = set_holiday)#set holiday
-    holiday_button.grid(column = 2, row = 3)
-    lbl = ttk.Label(window, text = " ", background = "#181717")
-    lbl.grid( row = 4)
+                               text='OK',
+                               font=("Calibri", 10, "bold"),
+                               foreground="#181717",
+                               background="#BFCFE2",
+                               width=4,
+                               command=set_holidays)  # set holiday
+    holiday_button.grid(column=2, row = 5)
 
+def toggle_holidays():
+    if holidaySelected.get() == 1:  # If the checkbox is selected
+        get_holidays()
+    else:  # If the checkbox is deselected
+        for widget in window.grid_slaves(row=5):
+            widget.grid_remove()  # Hide all widgets in row 5
+
+holidaySelected = tk.IntVar()
 check1 = tk.Checkbutton(window,
     text = "Ναι",
     font = ("Arial", 12),
     foreground = "#BFCFE2", 
     background = "#181717",
-    command = get_holiday)
-check1.grid(column = 2, row = 2)
+    variable = holidaySelected,
+    command = toggle_holidays)
+check1.grid(column = 2, row = 4)
 
 #Question 3
 from tkinter.filedialog import askopenfiles
@@ -97,17 +109,17 @@ def open_files():
         background = "#BFCFE2",
         width = 4,
         command = set_values)#set values
-    value_button.grid(column = 1, row = 6)
+    value_button.grid(column = 1, row = 7)
 
 files_button = tk.Button(window, 
-    text = 'Επίλεξε τα αρχεία',
+    text = 'Upload files',
     activebackground = "#181717",
     activeforeground = "#BFCFE2",
     background = "#BFCFE2",
     foreground = "#181717",
-    width = 15,
+    width = 11,
     command = open_files )
-files_button.grid(column = 0, row = 5)
+files_button.grid(column = 0, row = 7)
 
 col_count, row_count = window.grid_size()
 for row in range(1,row_count):
@@ -131,8 +143,11 @@ months = {
 
 import xl_parsing
 
+hasHoliday = False
+
 for x in s.files_path:
-    xl_parsing.read_xl(x, months[s.month], s.holiday)
+    if (xl_parsing.read_xl(x, months[s.month], s.holidays)):
+        hasHoliday = True
 
 import xlwt
 
@@ -146,43 +161,38 @@ tall_style = xlwt.easyxf('font:height 720;') # 36pt
 ws.row(0).set_style(tall_style)
 
 header_style = xlwt.easyxf('font: bold on; align: wrap on, vert centre, horiz center')
-ws.write(0, 2 , "Νύκτες", header_style)
-ws.write(0, 3 , "Νύκτες Κυριακής", header_style)
-ws.write(0, 4 , "Σύνολο Νύκτες", header_style)
-ws.write(0, 5 , "Ημέρα Κυριακές", header_style)
-ws.write(0, 6 , "Σύνολο Κυριακές", header_style)
-ws.write(0, 7 , "Πλήθος Κυριακών", header_style)
-ws.write(0, 8 , "Μέρες ασθένειας", header_style)
-ws.write(0, 9 , "Μέρες άδειας", header_style)
+ws.write(0, 2 , "Νύκτα", header_style) # NightHours
+ws.write(0, 3 , "Νύκτα Κυριακής", header_style) # SundayNightHours
+ws.write(0, 4 , "Ημέρα Κυριακής", header_style) # SundayHours
+ws.write(0, 5 , "Πλήθος Κυριακών", header_style) # TotalSunday
+ws.write(0, 6 , "Μέρες ασθένειας", header_style) # NoSickness
+ws.write(0, 7 , "Μέρες άδειας", header_style) # NoLicense
 
 employeesList = []
 for value in xl_parsing.employees_shiftwork.values():
     employeesList.append(value)
 
-data_style = xlwt.easyxf('align: wrap on, vert centre, horiz center')   
+data_style = xlwt.easyxf('align: wrap on, vert centre, horiz center')
 for row_idx in range(1, len(employeesList) + 1):
     ws.write(row_idx, 0, employeesList[row_idx - 1].name, data_style)
     ws.write(row_idx, 1, employeesList[row_idx - 1].surname, data_style)
     ws.write(row_idx, 2, employeesList[row_idx - 1].NightHours, data_style)
     ws.write(row_idx, 3, employeesList[row_idx - 1].SundayNightHours, data_style)
-    if bool(s.holiday):
-        ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
-    else:
-        ws.write(row_idx, 4, employeesList[row_idx - 1].SundayNightHours + employeesList[row_idx - 1].NightHours, header_style)
-    ws.write(row_idx, 5, employeesList[row_idx - 1].SundayHours, data_style)
-    ws.write(row_idx, 6, employeesList[row_idx - 1].SundayHours + employeesList[row_idx -1].SundayNightHours, header_style)
-    ws.write(row_idx, 7, employeesList[row_idx - 1].TotalSunday, data_style)
-    ws.write(row_idx, 8, employeesList[row_idx - 1].NoSickness, data_style)
-    ws.write(row_idx, 9, employeesList[row_idx - 1].NoLicense, data_style)
+    ws.write(row_idx, 4, employeesList[row_idx - 1].SundayHours, data_style)
+    ws.write(row_idx, 5, employeesList[row_idx - 1].TotalSunday, data_style)
+    ws.write(row_idx, 6, employeesList[row_idx - 1].NoSickness, data_style)
+    ws.write(row_idx, 7, employeesList[row_idx - 1].NoLicense, data_style)
 
-if bool(s.holiday):
-    ws.write(0, 10 , "Ημέρα Αργίες", header_style)
-    ws.write(0, 11 , "Νύκτες Αργίας", header_style)
-    ws.write(0, 12 , "Σύνολο Αργίες", header_style)
+if (hasHoliday):
+    ws.write(0, 8 , "Ημέρα Αργίας", header_style) 
+    ws.write(0, 9, "Νύκτα Αργίας", header_style) 
+    ws.write(0, 10, "Σύνολο ημέρας Κυριακής-Αργίας", header_style) 
+    ws.write(0, 11, "Σύνολο νύκτας Κυριακής-Αργίας", header_style) 
     for row_idx in range(1, len(employeesList) + 1):
-        ws.write(row_idx, 10, employeesList[row_idx - 1].HolidayHours, data_style)
-        ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayNightHours, data_style)
-        ws.write(row_idx, 12, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].HolidayNightHours, header_style)
+        ws.write(row_idx, 8, employeesList[row_idx - 1].HolidayHours, data_style)
+        ws.write(row_idx, 9, employeesList[row_idx - 1].HolidayNightHours, data_style)
+        ws.write(row_idx, 10, employeesList[row_idx - 1].HolidayHours + employeesList[row_idx - 1].SundayHours, header_style)
+        ws.write(row_idx, 11, employeesList[row_idx - 1].HolidayNightHours + employeesList[row_idx - 1].SundayNightHours, header_style)
 
 ws2 = wb.add_sheet("Ημερομηνίες Άδειας")
 ws2.col(0).width = 256 * 20  # 20 characters wide (-ish)
